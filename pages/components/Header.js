@@ -1,43 +1,45 @@
 import React from "react";
 import { FaBars } from "react-icons/fa";
+import { CgClose } from "react-icons/cg";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function Header() {
-  const [openMenu, setOpenMenu] = useState(false);
-  function toggleMenu() {
-    setOpenMenu(!openMenu);
-  }
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="bg-gray-800 text-white p-4">
+    <header className="bg-gray-800 text-white">
       <div className="mx-auto">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Embla Andersson</h1>
+        <div className="flex justify-between items-center p-4">
+          <Link href="/">
+            <h1 className="text-2xl font-bold">Embla Andersson</h1>
+          </Link>
 
+          {/* Mobile hamburger open and close button */}
           <button
-            onClick={toggleMenu}
+            onClick={() => setIsOpen(!isOpen)}
             className="border rounded p-1 hover:bg-gray-600 md:hidden flex justify-center items-center">
-            <FaBars />
+            {isOpen ? <FaBars /> : <CgClose />}
           </button>
         </div>
 
         {/* Mobile Menu */}
-        {openMenu && (
+        {!isOpen && (
           <nav className="md:hidden">
-            <ul className="flex flex-col gap-2 md:hidden absolute bg-base-100 top-16 right-0 w-48 p-4 shadow-lg items-center bg-gray-800">
+            <ul className="flex flex-col md:hidden top-16 p-4 shadow-lg items-center bg-gray-800">
               <li>
                 <a href="/aboutMe" className="hover:text-gray-400">
                   About Me
                 </a>
               </li>
               <li>
-                <a href="/project" className="hover:text-gray-400">
+                <a href="/projects" className="hover:text-gray-400">
                   Projects
                 </a>
               </li>
               <li>
-                <a href="#contact" className="hover:text-gray-400">
-                  Contact
+                <a href="/contact" className="hover:text-gray-400">
+                  Contact Me
                 </a>
               </li>
               <li>
@@ -57,13 +59,13 @@ export default function Header() {
               </a>
             </li>
             <li>
-              <a href="/project" className="hover:text-gray-400">
+              <a href="/projects" className="hover:text-gray-400">
                 Projects
               </a>
             </li>
             <li>
-              <a href="#contact" className="hover:text-gray-400">
-                Contact
+              <a href="/contact" className="hover:text-gray-400">
+                Contact Me
               </a>
             </li>
             <li>

@@ -50,9 +50,9 @@ export default function Admin() {
   // }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen bg-gray-100 p-8 flex justify-center">
       <section className="mb-12">
-        <h1 className="text-4xl font-bold mb-4">Admin Panel</h1>
+        <h1 className="text-4xl font-bold mb-4">Admin</h1>
         <div className="mb-4">
           <input
             type="text"
