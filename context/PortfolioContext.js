@@ -1,4 +1,3 @@
-// context/ProjectContext.js
 import { createContext, useState, useEffect } from "react";
 
 const PortfolioContext = createContext();
@@ -38,9 +37,21 @@ export function PortfolioProvider({ children }) {
     setProjects(projects.filter((_, i) => i !== index));
   };
 
+  const editProject = (index, project) => {
+    const newProjects = [...projects];
+    newProjects[index] = project;
+    setProjects(newProjects);
+  };
+
   return (
     <PortfolioContext.Provider
-      value={{ projects, addProject, deleteProject, baseProjects }}>
+      value={{
+        projects,
+        addProject,
+        deleteProject,
+        baseProjects,
+        editProject,
+      }}>
       {children}
     </PortfolioContext.Provider>
   );

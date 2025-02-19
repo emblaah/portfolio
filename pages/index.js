@@ -1,4 +1,4 @@
-// pages/index.js
+import React from "react";
 import { useContext } from "react";
 import PortfolioContext from "../context/PortfolioContext";
 

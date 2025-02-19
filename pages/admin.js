@@ -1,18 +1,42 @@
-// pages/admin.js
 import { useContext, useState } from "react";
 import PortfolioContext from "../context/PortfolioContext";
 
 export default function Admin() {
-  const { projects, addProject, deleteProject } = useContext(PortfolioContext);
+  const { projects, addProject, deleteProject, editProject } =
+    useContext(PortfolioContext);
 
   const [newProject, setNewProject] = useState({ title: "", description: "" });
   const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [editIndex, setEditIndex] = useState(null);
+  const [editMode, setEditMode] = useState(false);
 
   const handleAddProject = () => {
     if (newProject.title && newProject.description) {
-      addProject(newProject);
+      if (editMode) {
+        editProject(editIndex, newProject);
+        setEditMode(false);
+        setEditIndex(null);
+      } else {
+        addProject(newProject);
+      }
+
+      setNewProject({ title: "", description: "" });
+    }
+  };
+
+  const handleEditProject = (index) => {
+    const projectToEdit = projects[index];
+    setNewProject(projectToEdit);
+    setEditMode(true);
+    setEditIndex(index);
+  };
+
+  const handleDeleteProject = (index) => {
+    deleteProject(index);
+    if (editMode && editIndex === index) {
+      setEditMode(false);
       setNewProject({ title: "", description: "" });
     }
   };
@@ -75,12 +99,12 @@ export default function Admin() {
           <button
             onClick={handleAddProject}
             className="bg-blue-500 text-white p-2 rounded-lg">
-            Add Project
+            {editMode ? "Edit Project" : "Add Project"}
           </button>
         </div>
         <div>
           <h2 className="text-3xl font-bold mb-4">Manage Projects</h2>
-          {projects.map((project, index) => (
+          {(projects ?? []).map((project, index) => (
             <div
               key={index}
               className="flex justify-between items-center mb-4 bg-white p-4 rounded-lg shadow-md">
@@ -89,7 +113,12 @@ export default function Admin() {
                 <p className="text-gray-700">{project.description}</p>
               </div>
               <button
-                onClick={() => deleteProject(index)}
+                className="bg-blue-500 text-white p-2 rounded-lg"
+                onClick={() => handleEditProject(index)}>
+                Edit
+              </button>
+              <button
+                onClick={() => handleDeleteProject(index)}
                 className="bg-red-500 text-white p-2 rounded-lg">
                 Delete
               </button>

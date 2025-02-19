@@ -33,11 +33,6 @@ export default function Header() {
                 </Link>
               </li>
               <li>
-                <Link href="/projects" className="hover:text-gray-400">
-                  Projects
-                </Link>
-              </li>
-              <li>
                 <Link href="/contact" className="hover:text-gray-400">
                   Contact Me
                 </Link>
@@ -52,15 +47,10 @@ export default function Header() {
         )}
         {/* Desktop Menu */}
         <nav className="hidden md:flex md:justify-between">
-          <ul className="flex space-x-4">
+          <ul className="flex space-x-4 mr-2">
             <li>
               <Link href="/aboutMe" className="hover:text-gray-400">
                 About Me
-              </Link>
-            </li>
-            <li>
-              <Link href="/projects" className="hover:text-gray-400">
-                Projects
               </Link>
             </li>
             <li>
