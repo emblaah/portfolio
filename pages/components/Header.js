@@ -9,7 +9,7 @@ export default function Header() {
 
   return (
     <header className="bg-gray-800 text-white">
-      <div className="mx-auto">
+      <div className="mx-auto md:flex justify-between items-center">
         <div className="flex justify-between items-center p-4">
           <Link href="/">
             <h1 className="text-2xl font-bold">Embla Andersson</h1>
@@ -19,33 +19,33 @@ export default function Header() {
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="border rounded p-1 hover:bg-gray-600 md:hidden flex justify-center items-center">
-            {isOpen ? <FaBars /> : <CgClose />}
+            {isOpen ? <CgClose /> : <FaBars />}
           </button>
         </div>
 
         {/* Mobile Menu */}
-        {!isOpen && (
+        {isOpen && (
           <nav className="md:hidden">
             <ul className="flex flex-col md:hidden top-16 p-4 shadow-lg items-center bg-gray-800">
               <li>
-                <a href="/aboutMe" className="hover:text-gray-400">
+                <Link href="/aboutMe" className="hover:text-gray-400">
                   About Me
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/projects" className="hover:text-gray-400">
+                <Link href="/projects" className="hover:text-gray-400">
                   Projects
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/contact" className="hover:text-gray-400">
+                <Link href="/contact" className="hover:text-gray-400">
                   Contact Me
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/admin" className="hover:text-gray-400">
+                <Link href="/admin" className="hover:text-gray-400">
                   Admin
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>
@@ -54,24 +54,24 @@ export default function Header() {
         <nav className="hidden md:flex md:justify-between">
           <ul className="flex space-x-4">
             <li>
-              <a href="/aboutMe" className="hover:text-gray-400">
+              <Link href="/aboutMe" className="hover:text-gray-400">
                 About Me
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/projects" className="hover:text-gray-400">
+              <Link href="/projects" className="hover:text-gray-400">
                 Projects
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/contact" className="hover:text-gray-400">
+              <Link href="/contact" className="hover:text-gray-400">
                 Contact Me
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/admin" className="hover:text-gray-400">
+              <Link href="/admin" className="hover:text-gray-400">
                 Admin
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>

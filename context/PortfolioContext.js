@@ -4,7 +4,18 @@ import { createContext, useState, useEffect } from "react";
 const PortfolioContext = createContext();
 
 export function PortfolioProvider({ children }) {
-  const [projects, setProjects] = useState([]);
+  const baseProjects = [
+    {
+      id: 1,
+      title: "Todo List",
+      description:
+        "Simple todo list where you can add and remove items built with React",
+      techUsed: ["React", "Tailwind"],
+      codeLink: "https://github.com/emblaah/ws-react-todolist",
+      // image: "" // Add image of choice here
+    },
+  ];
+  const [projects, setProjects] = useState(baseProjects);
 
   // Load projects from local storage when the app loads
   useEffect(() => {
@@ -28,7 +39,8 @@ export function PortfolioProvider({ children }) {
   };
 
   return (
-    <PortfolioContext.Provider value={{ projects, addProject, deleteProject }}>
+    <PortfolioContext.Provider
+      value={{ projects, addProject, deleteProject, baseProjects }}>
       {children}
     </PortfolioContext.Provider>
   );

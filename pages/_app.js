@@ -1,5 +1,5 @@
 import "@/styles/globals.css";
-import { PortfolioProvider } from "./context/PortfolioContext";
+import { PortfolioProvider } from "../context/PortfolioContext";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 

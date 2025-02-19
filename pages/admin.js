@@ -1,6 +1,6 @@
 // pages/admin.js
 import { useContext, useState } from "react";
-import PortfolioContext from "./context/PortfolioContext";
+import PortfolioContext from "../context/PortfolioContext";
 
 export default function Admin() {
   const { projects, addProject, deleteProject } = useContext(PortfolioContext);
@@ -44,7 +44,7 @@ export default function Admin() {
   //       <button
   //       className="bg-blue-500 text-white p-2 rounded-lg"
   //        onClick={handleLogin}>Logga in</button>
-         
+
   //     </div>
   //   );
   // }
