@@ -77,10 +77,10 @@ export default function Admin() {
     <div className="min-h-screen bg-gray-100 p-8 flex justify-center">
       <section className="mb-12">
         <h1 className="text-4xl font-bold mb-4">Admin</h1>
-        <div className="mb-4">
+        <div className="mb-4 flex flex-col">
           <input
             type="text"
-            className="border p-2 mr-2"
+            className="border p-2"
             placeholder="Project Title"
             value={newProject.title}
             onChange={(e) =>
@@ -89,7 +89,7 @@ export default function Admin() {
           />
           <input
             type="text"
-            className="border p-2 mr-2"
+            className="border p-2"
             placeholder="Project Description"
             value={newProject.description}
             onChange={(e) =>
@@ -107,21 +107,23 @@ export default function Admin() {
           {(projects ?? []).map((project, index) => (
             <div
               key={index}
-              className="flex justify-between items-center mb-4 bg-white p-4 rounded-lg shadow-md">
+              className="flex justify-between items-center mb-4 bg-white p-4 rounded-lg shadow-md gap-2">
               <div>
                 <h3 className="text-xl font-semibold">{project.title}</h3>
                 <p className="text-gray-700">{project.description}</p>
               </div>
-              <button
-                className="bg-blue-500 text-white p-2 rounded-lg"
-                onClick={() => handleEditProject(index)}>
-                Edit
-              </button>
-              <button
-                onClick={() => handleDeleteProject(index)}
-                className="bg-red-500 text-white p-2 rounded-lg">
-                Delete
-              </button>
+              <div className="">
+                <button
+                  className="bg-blue-500 text-white p-2 rounded-lg"
+                  onClick={() => handleEditProject(index)}>
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDeleteProject(index)}
+                  className="bg-red-500 text-white p-2 rounded-lg">
+                  Delete
+                </button>
+              </div>
             </div>
           ))}
         </div>
