@@ -3,6 +3,7 @@ import { FaBars } from "react-icons/fa";
 import { CgClose } from "react-icons/cg";
 import Link from "next/link";
 import { useState } from "react";
+import ThemeColorBtn from "./ThemeColorBtn";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,11 +17,14 @@ export default function Header() {
           </Link>
 
           {/* Mobile hamburger open and close button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="border rounded p-1 hover:bg-gray-600 md:hidden flex justify-center items-center">
-            {isOpen ? <CgClose /> : <FaBars />}
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="border rounded p-1 hover:bg-gray-600 md:hidden flex justify-center items-center">
+              {isOpen ? <CgClose /> : <FaBars />}
+            </button>
+            <ThemeColorBtn />
+          </div>
         </div>
 
         {/* Mobile Menu */}
@@ -62,6 +66,9 @@ export default function Header() {
               <Link href="/admin" className="hover:text-gray-400">
                 Admin
               </Link>
+            </li>
+            <li>
+              <ThemeColorBtn />
             </li>
           </ul>
         </nav>

@@ -14,33 +14,57 @@ export function PortfolioProvider({ children }) {
       // image: "" // Add image of choice here
     },
   ];
+
+  const baseSkills = [
+    { name: "HTML", icon: "html5" },
+    { name: "CSS", icon: "css3" },
+    { name: "React", icon: "react" },
+    { name: "Next.js", icon: "nextjs" },
+    { name: "JavaScript", icon: "javascript" },
+    { name: "Vite", icon: "vitejs" },
+    { name: "VS Code", icon: "vscode" },
+  ];
+
   const [projects, setProjects] = useState(baseProjects);
+  const [techSkills, setTechSkills] = useState(baseSkills);
 
   // Load projects from local storage when the app loads
   useEffect(() => {
-    const savedProjects = localStorage.getItem("projects");
-    if (savedProjects) {
-      setProjects(JSON.parse(savedProjects));
+    if (typeof window !== "undefined") {
+      const savedProjects = localStorage.getItem("portfolioProjects");
+      const savedSkills = localStorage.getItem("portfolioSkills");
+
+      if (savedProjects) setProjects(JSON.parse(savedProjects));
+      if (savedSkills) setTechSkills(JSON.parse(savedSkills));
     }
   }, []);
 
   // Save projects to local storage whenever projects array changes
   useEffect(() => {
-    localStorage.setItem("projects", JSON.stringify(projects));
-  }, [projects]);
+    localStorage.setItem("portfolioProjects", JSON.stringify(projects));
+    localStorage.setItem("portfolioSkills", JSON.stringify(techSkills));
+  }, [projects, techSkills]);
 
   const addProject = (project) => {
     setProjects([...projects, project]);
   };
 
-  const deleteProject = (index) => {
-    setProjects(projects.filter((_, i) => i !== index));
+  const deleteProject = (id) => {
+    setProjects(projects.filter((proj) => proj.id !== id));
   };
 
   const editProject = (index, project) => {
     const newProjects = [...projects];
     newProjects[index] = project;
     setProjects(newProjects);
+  };
+
+  const addTechSkill = (skill) => {
+    setTechSkills([...techSkills, skill]);
+  };
+
+  const deleteTechSkill = (skill) => {
+    setTechSkills(techSkills.filter((s) => s !== skill));
   };
 
   return (
@@ -51,6 +75,10 @@ export function PortfolioProvider({ children }) {
         deleteProject,
         baseProjects,
         editProject,
+        techSkills,
+        addTechSkill,
+        deleteTechSkill,
+        baseSkills,
       }}>
       {children}
     </PortfolioContext.Provider>
