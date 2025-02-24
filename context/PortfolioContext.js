@@ -67,6 +67,12 @@ export function PortfolioProvider({ children }) {
     setTechSkills(techSkills.filter((s) => s !== skill));
   };
 
+  const editTechSkill = (index, skill) => {
+    const newSkills = [...techSkills];
+    newSkills[index] = skill;
+    setTechSkills(newSkills);
+  };
+
   return (
     <PortfolioContext.Provider
       value={{
@@ -79,6 +85,7 @@ export function PortfolioProvider({ children }) {
         addTechSkill,
         deleteTechSkill,
         baseSkills,
+        editTechSkill,
       }}>
       {children}
     </PortfolioContext.Provider>

@@ -10,16 +10,12 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative">
         <div className="max-w-6xl mx-auto px-4 py-20">
-          <div variant="secondary" className="mb-8">
-            Available for Work
-          </div>
-
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <h1 className="text-6xl font-bold tracking-tight text-base-content">
                 Hi, I'm Embla
                 <span className="block text-primary mt-2">
-                  Full Stack Developer
+                  A Frontend Developer
                 </span>
               </h1>
 
@@ -63,13 +59,16 @@ export default function Home() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {techSkills.map((skill, index) => (
-              <div key={skill.name || index} className=" bg-base-100 shadow-lg">
-                <div className="p-6">
+              <div key={skill.name || index} className="bg-base-100 shadow-lg">
+                <div className="flex justify-between items-center p-4">
                   <img
                     src={`https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${skill.icon}/${skill.icon}-original.svg`}
                     alt={`${skill.name} logo`}
                     width={40}
                   />
+                  <h3 className="text-lg font-semibold text-base-content flex">
+                    {skill.name}
+                  </h3>
                 </div>
               </div>
             ))}

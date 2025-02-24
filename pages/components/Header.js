@@ -17,13 +17,15 @@ export default function Header() {
           </Link>
 
           {/* Mobile hamburger open and close button */}
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center justify-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="border rounded p-1 hover:bg-gray-600 md:hidden flex justify-center items-center">
               {isOpen ? <CgClose /> : <FaBars />}
             </button>
-            <ThemeColorBtn />
+            <div className="md:hidden flex">
+              <ThemeColorBtn />
+            </div>
           </div>
         </div>
 
@@ -51,7 +53,7 @@ export default function Header() {
         )}
         {/* Desktop Menu */}
         <nav className="hidden md:flex md:justify-between">
-          <ul className="flex space-x-4 mr-2">
+          <ul className="flex space-x-4 mr-4 items-center justify-center">
             <li>
               <Link href="/aboutMe" className="hover:text-gray-400">
                 About Me
@@ -67,7 +69,7 @@ export default function Header() {
                 Admin
               </Link>
             </li>
-            <li>
+            <li className="flex">
               <ThemeColorBtn />
             </li>
           </ul>
