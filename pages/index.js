@@ -59,7 +59,9 @@ export default function Home() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {techSkills.map((skill, index) => (
-              <div key={skill.name || index} className="bg-base-100 shadow-lg">
+              <div
+                key={skill.name || index}
+                className="bg-base-200 shadow-lg rounded-lg">
                 <div className="flex justify-between items-center p-4">
                   <img
                     src={`https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${skill.icon}/${skill.icon}-original.svg`}

@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import PortfolioContext from "../context/PortfolioContext";
+import Link from "next/link";
 
 export default function Admin() {
   const {
@@ -35,9 +36,8 @@ export default function Admin() {
       newProject.techUsed
     ) {
       if (editMode) {
-        editProject(editIndex, newProject);
+        editProject(newProject.id, newProject);
         setEditMode(false);
-        setEditIndex(null);
       } else {
         addProject({ ...newProject, id: Date.now() });
       }
@@ -66,11 +66,11 @@ export default function Admin() {
   const handleAddTechSkill = () => {
     if (newSkill.name && newSkill.icon) {
       if (editMode) {
-        editTechSkill(newProject.id, newSkill);
+        editTechSkill(newSkill.id, newSkill);
         setEditMode(false);
-        setEditIndex(id);
+      } else {
+        addTechSkill({ ...newSkill, id: Date.now() });
       }
-      addTechSkill(newSkill);
       setNewSkill({ name: "", icon: "" });
     }
   };
@@ -141,13 +141,18 @@ export default function Admin() {
   //     </div>
   //   );
   // }
+  console.log("techSkills", techSkills);
 
   return (
     <div className="min-h-screen bg-base-100 transition-colors p-8 flex justify-center">
       <section>
         <h1 className="text-4xl text-base-content font-bold mb-4">Admin</h1>
         <div className="mb-4 flex flex-col gap-2">
-          <form action="">
+          {/* Form to edit projects */}
+          <form>
+            <h2 className="text-base-content text-lg font-semibold">
+              Edit Project
+            </h2>
             <input
               type="text"
               className="input input-bordered w-full text-base-content"
@@ -187,8 +192,41 @@ export default function Admin() {
               }
             />
 
-            <button onClick={handleAddProject} className="btn">
+            <button type="submit" onClick={handleAddProject} className="btn">
               {editMode ? "Edit Project" : "Add Project"}
+            </button>
+          </form>
+        </div>
+
+        {/* Form to Edit Tech Skills */}
+
+        <div className="mb-4 flex flex-col gap-2">
+          {/* Form to edit projects */}
+          <form>
+            <h2 className="text-base-content text-lg font-semibold">
+              Edit Tech Skill
+            </h2>
+            <input
+              type="text"
+              className="input input-bordered w-full text-base-content"
+              placeholder="Skill Name"
+              value={newSkill.name}
+              onChange={(e) =>
+                setNewSkill({ ...newSkill, name: e.target.value })
+              }
+            />
+            <input
+              type="text"
+              className="textarea textarea-bordered w-full text-base-content"
+              placeholder="Skill icon"
+              value={newSkill.icon}
+              onChange={(e) =>
+                setNewSkill({ ...newSkill, icon: e.target.value })
+              }
+            />
+
+            <button type="submit" onClick={handleAddTechSkill} className="btn">
+              {editMode ? "Edit Tech Skill" : "Add Tech Skill"}
             </button>
           </form>
         </div>
@@ -197,7 +235,7 @@ export default function Admin() {
           <h2 className="text-3xl font-bold mb-4 text-base-content">
             Manage Projects
           </h2>
-          {(projects ?? []).map((project) => (
+          {projects?.map((project) => (
             <div
               key={project.id}
               className="flex justify-between items-center mb-4 p-4 rounded-lg shadow-md gap-2">
@@ -206,9 +244,11 @@ export default function Admin() {
                   {project.title}
                 </h3>
                 <p className="text-base-content">{project.description}</p>
-                <a className="link text-base-content" href={project.codeLink}>
+                <Link
+                  className="link text-base-content"
+                  href={project.codeLink}>
                   {project.codeLink}
-                </a>
+                </Link>
 
                 <p className="text-base-content capitalize">
                   {project.techUsed
@@ -235,7 +275,7 @@ export default function Admin() {
           <h2 className="text-3xl font-bold mb-4 text-base-content">
             Manage Tech Skills
           </h2>
-          {(techSkills ?? []).map((skill, id) => (
+          {(techSkills ?? []).map((skill) => (
             <div
               key={skill.id}
               className="flex justify-between items-center mb-4 p-4 rounded-lg shadow-md gap-2">

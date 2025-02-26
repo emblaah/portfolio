@@ -16,13 +16,13 @@ export function PortfolioProvider({ children }) {
   ];
 
   const baseSkills = [
-    { name: "HTML", icon: "html5" },
-    { name: "CSS", icon: "css3" },
-    { name: "React", icon: "react" },
-    { name: "Next.js", icon: "nextjs" },
-    { name: "JavaScript", icon: "javascript" },
-    { name: "Vite", icon: "vitejs" },
-    { name: "VS Code", icon: "vscode" },
+    { id: 1, name: "HTML", icon: "html5" },
+    { id: 2, name: "CSS", icon: "css3" },
+    { id: 3, name: "React", icon: "react" },
+    { id: 4, name: "Next.js", icon: "nextjs" },
+    { id: 5, name: "JavaScript", icon: "javascript" },
+    { id: 6, name: "Vite", icon: "vitejs" },
+    { id: 7, name: "VS Code", icon: "vscode" },
   ];
 
   const [projects, setProjects] = useState(baseProjects);
@@ -53,24 +53,26 @@ export function PortfolioProvider({ children }) {
     setProjects(projects.filter((proj) => proj.id !== id));
   };
 
-  const editProject = (index, project) => {
-    const newProjects = [...projects];
-    newProjects[index] = project;
-    setProjects(newProjects);
+  const editProject = (id, updatedProject) => {
+    const updatedProjects = projects.map((proj) =>
+      proj.id === id ? { ...proj, ...updatedProject } : proj
+    );
+    setProjects(updatedProjects);
   };
 
   const addTechSkill = (skill) => {
-    setTechSkills([...techSkills, skill]);
+    setTechSkills([...techSkills, { ...skill, id: Date.now() }]);
   };
 
-  const deleteTechSkill = (skill) => {
-    setTechSkills(techSkills.filter((s) => s !== skill));
+  const deleteTechSkill = (id) => {
+    setTechSkills(techSkills.filter((skill) => skill.id !== id));
   };
 
-  const editTechSkill = (index, skill) => {
-    const newSkills = [...techSkills];
-    newSkills[index] = skill;
-    setTechSkills(newSkills);
+  const editTechSkill = (id, updatedSkill) => {
+    const updatedSkills = techSkills.map((skill) =>
+      skill.id === id ? { ...skill, ...updatedSkill } : skill
+    );
+    setTechSkills(updatedSkills);
   };
 
   return (
