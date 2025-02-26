@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import PortfolioContext from "../context/PortfolioContext";
-import { parseCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 export default function Admin() {
   const {
@@ -14,7 +13,14 @@ export default function Admin() {
     editTechSkill,
   } = useContext(PortfolioContext);
 
-  const [newProject, setNewProject] = useState({ title: "", description: "", codeLink: "", techUsed: "" });
+  const [newProject, setNewProject] = useState({
+    id: null,
+    title: "",
+    description: "",
+    codeLink: "",
+    techUsed: [],
+  });
+  const [newSkill, setNewSkill] = useState({ name: "", icon: "" });
   const [loggedIn, setLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -22,31 +28,65 @@ export default function Admin() {
   const [editMode, setEditMode] = useState(false);
 
   const handleAddProject = () => {
-    if (newProject.title && newProject.description && newProject.codeLink && newProject.techUsed) {
+    if (
+      newProject.title &&
+      newProject.description &&
+      newProject.codeLink &&
+      newProject.techUsed
+    ) {
       if (editMode) {
         editProject(editIndex, newProject);
         setEditMode(false);
         setEditIndex(null);
       } else {
-        addProject(newProject);
+        addProject({ ...newProject, id: Date.now() });
       }
 
-      setNewProject({ title: "", description: "", codeLink: "", techUsed: "" });
+      setNewProject({ title: "", description: "", codeLink: "", techUsed: [] });
     }
   };
 
-  const handleEditProject = (index) => {
-    const projectToEdit = projects[index];
-    setNewProject(projectToEdit);
-    setEditMode(true);
-    setEditIndex(index);
+  const handleEditProject = (id) => {
+    const projectToEdit = projects.find((project) => project.id === id);
+    if (projectToEdit) {
+      setNewProject(projectToEdit);
+      setEditMode(true);
+      setEditIndex(id);
+    }
   };
 
-  const handleDeleteProject = (index) => {
-    deleteProject(index);
-    if (editMode && editIndex === index) {
+  const handleDeleteProject = (id) => {
+    deleteProject(id);
+    if (editMode && newProject.id === id) {
       setEditMode(false);
-      setNewProject({ title: "", description: "" });
+      setNewProject({ title: "", description: "", codeLink: "", techUsed: [] });
+    }
+  };
+
+  const handleAddTechSkill = () => {
+    if (newSkill.name && newSkill.icon) {
+      if (editMode) {
+        editTechSkill(newProject.id, newSkill);
+        setEditMode(false);
+        setEditIndex(id);
+      }
+      addTechSkill(newSkill);
+      setNewSkill({ name: "", icon: "" });
+    }
+  };
+
+  const handleEditTechSkill = (id) => {
+    const skillToEdit = techSkills.find((skill) => skill.id === id);
+    setNewSkill(skillToEdit);
+    setEditMode(true);
+    setEditIndex(id);
+  };
+
+  const handleDeleteTechSkill = (id) => {
+    deleteTechSkill(id);
+    if (editMode && newSkill.id === id) {
+      setEditMode(false);
+      setNewSkill({ name: "", icon: "" });
     }
   };
 
@@ -107,52 +147,59 @@ export default function Admin() {
       <section>
         <h1 className="text-4xl text-base-content font-bold mb-4">Admin</h1>
         <div className="mb-4 flex flex-col gap-2">
-          <input
-            type="text"
-            className="input input-bordered w-full text-base-content"
-            placeholder="Project Title"
-            value={newProject.title}
-            onChange={(e) =>
-              setNewProject({ ...newProject, title: e.target.value })
-            }
-          />
-          <input
-            className="textarea textarea-bordered w-full text-base-content"
-            placeholder="Project Description"
-            value={newProject.description}
-            onChange={(e) =>
-              setNewProject({ ...newProject, description: e.target.value })
-            }/>
-          {/* <input
-            type="url"
-            className="input input-bordered text-sm w-full text-base-content"
-            placeholder="Insert link here"
-            value={newProject.codeLink}
-            onChange={(e) =>
-              setNewProject({ ...newProject, codeLink: e.target.value })
-            }
-          /> */}
-          {/* <select
-            multiple
-            className="w-64 h-32 p-2 border border-gray-300 rounded">
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
-            <option value="option4">Option 4</option>
-          </select> */}
+          <form action="">
+            <input
+              type="text"
+              className="input input-bordered w-full text-base-content"
+              placeholder="Project Title"
+              value={newProject.title}
+              onChange={(e) =>
+                setNewProject({ ...newProject, title: e.target.value })
+              }
+            />
+            <input
+              className="textarea textarea-bordered w-full text-base-content"
+              placeholder="Project Description"
+              value={newProject.description}
+              onChange={(e) =>
+                setNewProject({ ...newProject, description: e.target.value })
+              }
+            />
+            <input
+              type="url"
+              className="input input-bordered text-sm w-full text-base-content"
+              placeholder="Insert link here"
+              value={newProject.codeLink}
+              onChange={(e) =>
+                setNewProject({ ...newProject, codeLink: e.target.value })
+              }
+            />
+            <input
+              type="text"
+              className="input input-bordered w-full text-base-content"
+              placeholder="Tech Used seperated by comma"
+              value={newProject.techUsed.join(", ")}
+              onChange={(e) =>
+                setNewProject({
+                  ...newProject,
+                  techUsed: e.target.value.split(/,\s*/),
+                })
+              }
+            />
 
-          <button onClick={handleAddProject} className="btn">
-            {editMode ? "Edit Project" : "Add Project"}
-          </button>
+            <button onClick={handleAddProject} className="btn">
+              {editMode ? "Edit Project" : "Add Project"}
+            </button>
+          </form>
         </div>
 
         <div>
           <h2 className="text-3xl font-bold mb-4 text-base-content">
             Manage Projects
           </h2>
-          {(projects ?? []).map((project, index) => (
+          {(projects ?? []).map((project) => (
             <div
-              key={index}
+              key={project.id}
               className="flex justify-between items-center mb-4 p-4 rounded-lg shadow-md gap-2">
               <div>
                 <h3 className="text-xl font-semibold text-base-content">
@@ -162,16 +209,21 @@ export default function Admin() {
                 <a className="link text-base-content" href={project.codeLink}>
                   {project.codeLink}
                 </a>
-                <p className="text-base-content">{project.techUsed}</p>
+
+                <p className="text-base-content capitalize">
+                  {project.techUsed
+                    .map((tech) => tech.charAt(0).toUpperCase() + tech.slice(1))
+                    .join(" ")}
+                </p>
               </div>
               <div className="">
                 <button
                   className="bg-blue-500 text-white p-2 rounded-lg"
-                  onClick={() => handleEditProject(index)}>
+                  onClick={() => handleEditProject(project.id)}>
                   Edit
                 </button>
                 <button
-                  onClick={() => handleDeleteProject(index)}
+                  onClick={() => handleDeleteProject(project.id)}
                   className="bg-red-500 text-white p-2 rounded-lg">
                   Delete
                 </button>
@@ -183,9 +235,9 @@ export default function Admin() {
           <h2 className="text-3xl font-bold mb-4 text-base-content">
             Manage Tech Skills
           </h2>
-          {(techSkills ?? []).map((skill, index) => (
+          {(techSkills ?? []).map((skill, id) => (
             <div
-              key={index}
+              key={skill.id}
               className="flex justify-between items-center mb-4 p-4 rounded-lg shadow-md gap-2">
               <div>
                 <h3 className="text-xl font-semibold text-base-content">
@@ -200,11 +252,11 @@ export default function Admin() {
               <div className="">
                 <button
                   className="bg-blue-500 text-white p-2 rounded-lg"
-                  onClick={() => handleEditProject(index)}>
+                  onClick={() => handleEditTechSkill(skill.id)}>
                   Edit
                 </button>
                 <button
-                  onClick={() => handleDeleteProject(index)}
+                  onClick={() => handleDeleteTechSkill(skill.id)}
                   className="bg-red-500 text-white p-2 rounded-lg">
                   Delete
                 </button>
