@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useRef } from "react";
 import PortfolioContext from "../context/PortfolioContext";
 import Link from "next/link";
 
@@ -20,6 +20,7 @@ export default function Admin() {
     description: "",
     codeLink: "",
     techUsed: [],
+    image: "",
   });
   const [newSkill, setNewSkill] = useState({ name: "", icon: "" });
   const [loggedIn, setLoggedIn] = useState(false);
@@ -27,6 +28,10 @@ export default function Admin() {
   const [password, setPassword] = useState("");
   const [editIndex, setEditIndex] = useState(null);
   const [editMode, setEditMode] = useState(false);
+
+  // Refs for forms
+  const projectFormRef = useRef(null);
+  const skillFormRef = useRef(null);
 
   const handleAddProject = () => {
     if (
@@ -42,7 +47,13 @@ export default function Admin() {
         addProject({ ...newProject, id: Date.now() });
       }
 
-      setNewProject({ title: "", description: "", codeLink: "", techUsed: [] });
+      setNewProject({
+        title: "",
+        description: "",
+        codeLink: "",
+        techUsed: [],
+        image: "",
+      });
     }
   };
 
@@ -52,6 +63,7 @@ export default function Admin() {
       setNewProject(projectToEdit);
       setEditMode(true);
       setEditIndex(id);
+      projectFormRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -77,9 +89,12 @@ export default function Admin() {
 
   const handleEditTechSkill = (id) => {
     const skillToEdit = techSkills.find((skill) => skill.id === id);
-    setNewSkill(skillToEdit);
-    setEditMode(true);
-    setEditIndex(id);
+    if (skillToEdit) {
+      setNewSkill(skillToEdit);
+      setEditMode(true);
+      setEditIndex(id);
+      skillFormRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   const handleDeleteTechSkill = (id) => {
@@ -149,7 +164,9 @@ export default function Admin() {
         <h1 className="text-4xl text-base-content font-bold mb-4">Admin</h1>
         <div className="mb-4 flex flex-col gap-2">
           {/* Form to edit projects */}
-          <form>
+          <form
+            className="bg-base-300 p-8 flex flex-col gap-2 rounded-lg"
+            ref={projectFormRef}>
             <h2 className="text-base-content text-lg font-semibold">
               Edit Project
             </h2>
@@ -162,7 +179,7 @@ export default function Admin() {
                 setNewProject({ ...newProject, title: e.target.value })
               }
             />
-            <input
+            <textarea
               className="textarea textarea-bordered w-full text-base-content"
               placeholder="Project Description"
               value={newProject.description}
@@ -173,7 +190,7 @@ export default function Admin() {
             <input
               type="url"
               className="input input-bordered text-sm w-full text-base-content"
-              placeholder="Insert link here"
+              placeholder="Insert GitHub link here"
               value={newProject.codeLink}
               onChange={(e) =>
                 setNewProject({ ...newProject, codeLink: e.target.value })
@@ -181,13 +198,25 @@ export default function Admin() {
             />
             <input
               type="text"
-              className="input input-bordered w-full text-base-content"
+              className="input input-bordered w-full text-base-content capitalize"
               placeholder="Tech Used seperated by comma"
               value={newProject.techUsed.join(", ")}
               onChange={(e) =>
                 setNewProject({
                   ...newProject,
                   techUsed: e.target.value.split(/,\s*/),
+                })
+              }
+            />
+            <input
+              type="url"
+              className="input input-bordered w-full text-base-content"
+              placeholder="Link to image"
+              value={newProject.image}
+              onChange={(e) =>
+                setNewProject({
+                  ...newProject,
+                  image: e.target.value,
                 })
               }
             />
@@ -202,13 +231,15 @@ export default function Admin() {
 
         <div className="mb-4 flex flex-col gap-2">
           {/* Form to edit projects */}
-          <form>
+          <form
+            className="bg-base-300 p-8 flex flex-col gap-2 rounded-lg"
+            ref={skillFormRef}>
             <h2 className="text-base-content text-lg font-semibold">
               Edit Tech Skill
             </h2>
             <input
               type="text"
-              className="input input-bordered w-full text-base-content"
+              className="input input-bordered w-full text-base-content capitalize"
               placeholder="Skill Name"
               value={newSkill.name}
               onChange={(e) =>
@@ -217,8 +248,8 @@ export default function Admin() {
             />
             <input
               type="text"
-              className="textarea textarea-bordered w-full text-base-content"
-              placeholder="Skill icon"
+              className="input input-bordered w-full text-base-content"
+              placeholder="Skill icon ex: html5"
               value={newSkill.icon}
               onChange={(e) =>
                 setNewSkill({ ...newSkill, icon: e.target.value })
@@ -238,8 +269,8 @@ export default function Admin() {
           {projects?.map((project) => (
             <div
               key={project.id}
-              className="flex justify-between items-center mb-4 p-4 rounded-lg shadow-md gap-2">
-              <div>
+              className="flex justify-between items-center mb-4 p-4 rounded-lg shadow-md gap-2 bg-base-200">
+              <div className="flex flex-col gap-2">
                 <h3 className="text-xl font-semibold text-base-content">
                   {project.title}
                 </h3>
@@ -250,13 +281,17 @@ export default function Admin() {
                   {project.codeLink}
                 </Link>
 
-                <p className="text-base-content capitalize">
-                  {project.techUsed
-                    .map((tech) => tech.charAt(0).toUpperCase() + tech.slice(1))
-                    .join(" ")}
+                <p className="text-base-content capitalize flex gap-1">
+                  {project.techUsed.map((tech) => (
+                    <span
+                      key={tech}
+                      className="badge capitalize badge-primary badge-lg">
+                      {tech}
+                    </span>
+                  ))}
                 </p>
               </div>
-              <div className="">
+              <div className="flex gap-2">
                 <button
                   className="bg-blue-500 text-white p-2 rounded-lg"
                   onClick={() => handleEditProject(project.id)}>
@@ -275,34 +310,36 @@ export default function Admin() {
           <h2 className="text-3xl font-bold mb-4 text-base-content">
             Manage Tech Skills
           </h2>
-          {(techSkills ?? []).map((skill) => (
-            <div
-              key={skill.id}
-              className="flex justify-between items-center mb-4 p-4 rounded-lg shadow-md gap-2">
-              <div>
-                <h3 className="text-xl font-semibold text-base-content">
-                  {skill.name}
-                </h3>
-                <img
-                  src={`https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${skill.icon}/${skill.icon}-original.svg`}
-                  alt={`${skill.name} logo`}
-                  width={40}
-                />{" "}
+          <div className="grid grid-cols-2 gap-x-4">
+            {(techSkills ?? []).map((skill) => (
+              <div
+                key={skill.id}
+                className="flex justify-between items-center mb-4 p-4 rounded-lg shadow-md gap-2 bg-base-200">
+                <div>
+                  <h3 className="text-xl font-semibold text-base-content">
+                    {skill.name}
+                  </h3>
+                  <img
+                    src={`https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${skill.icon}/${skill.icon}-original.svg`}
+                    alt={`${skill.name} logo`}
+                    width={40}
+                  />{" "}
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    className="bg-blue-500 text-white p-2 rounded-lg"
+                    onClick={() => handleEditTechSkill(skill.id)}>
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDeleteTechSkill(skill.id)}
+                    className="bg-red-500 text-white p-2 rounded-lg">
+                    Delete
+                  </button>
+                </div>
               </div>
-              <div className="">
-                <button
-                  className="bg-blue-500 text-white p-2 rounded-lg"
-                  onClick={() => handleEditTechSkill(skill.id)}>
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDeleteTechSkill(skill.id)}
-                  className="bg-red-500 text-white p-2 rounded-lg">
-                  Delete
-                </button>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
     </div>

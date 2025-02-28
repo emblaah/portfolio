@@ -7,11 +7,30 @@ export function PortfolioProvider({ children }) {
     {
       id: 1,
       title: "Todo List",
-      description:
-        "Simple todo list where you can add and remove items built with React",
+      description: // give a brief description of the project
+
+        "A simple todo list application where users can add, remove, and manage their tasks. Built with React and styled using Tailwind CSS.",
       techUsed: ["React", "Tailwind"],
       codeLink: "https://github.com/emblaah/ws-react-todolist",
-      // image: "" // Add image of choice here
+      image: "/assets/TodoListImage.png",
+    },
+    {
+      id: 2,
+      title: "Pokemon API Site",
+      description:
+        "A website that dynamically connects to the Pokemon API to display information about different Pokemon. Built with React and styled using Tailwind CSS.",
+      techUsed: ["React", "Tailwind"],
+      codeLink: "https://github.com/zarhaselene/chas_pokemon.git",
+      image: "/assets/PokemonSite.png",
+    },
+    {
+      id: 3,
+      title: "QuizMaster",
+      description:
+        "A quiz website where users can add questions, play the game, and view a leaderboard. Built with React and styled using Tailwind CSS.",
+      techUsed: ["React", "Tailwind", "Next.js"],
+      codeLink: "https://github.com/zarhaselene/chas_quiz.git",
+      image: "/assets/QuizMaster.png",
     },
   ];
 

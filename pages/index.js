@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useContext } from "react";
 import PortfolioContext from "../context/PortfolioContext";
 
 export default function Home() {
   const { projects, techSkills } = useContext(PortfolioContext);
+  const sectionRef = useRef(null);
 
   return (
     <div className="min-h-screen bg-base-100 transition-colors duration-300">
@@ -26,24 +27,17 @@ export default function Home() {
               </p>
 
               <div className="flex gap-4">
-                <button className="btn" size="lg">
+                <button
+                  onClick={() => {
+                    sectionRef.current?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="btn"
+                  size="lg">
                   View Projects
                 </button>
                 <button className="btn" size="lg" variant="outline">
                   Contact Me
                 </button>
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="overflow-hidden">
-                <div className="p-0">
-                  {/* <img
-                    src="/api/placeholder/600/600"
-                    alt="Developer workspace"
-                    className="w-full h-full object-cover"
-                  /> */}
-                </div>
               </div>
             </div>
           </div>
@@ -58,10 +52,8 @@ export default function Home() {
           </h2>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {techSkills.map((skill, index) => (
-              <div
-                key={skill.name || index}
-                className="bg-base-200 shadow-lg rounded-lg">
+            {techSkills.map((skill) => (
+              <div key={skill.id} className="bg-base-200 shadow-lg rounded-lg">
                 <div className="flex justify-between items-center p-4">
                   <img
                     src={`https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${skill.icon}/${skill.icon}-original.svg`}
@@ -79,7 +71,7 @@ export default function Home() {
       </section>
 
       {/* Projects Preview */}
-      <section className="py-16 bg-base-200">
+      <section ref={sectionRef} className="py-16 bg-base-200">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold mb-12 text-base-content">
             Featured Projects
@@ -87,14 +79,29 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {(projects ?? []).map((project) => (
-              <div key={project.id} className="card bg-base-100 shadow-lg">
+              <div key={project.id} className="card bg-base-100 shadow-xl">
+                  <figure>
+                    <img
+                      className="object-cover h-48 w-full"
+                      src={project.image}
+                      alt={project.name}
+                    />
+                  </figure>
                 <div className="p-6 card-body">
-                  <h3 className="text-xl font-semibold mb-2 text-base-content">
+                  <h3 className="text-xl card-title font-semibold mb-2 text-base-content">
                     {project.title}
                   </h3>
                   <p className="text-base-content mb-4">
                     {project.description}
                   </p>
+                  {/* Optionally add a list of technologies used */}
+                  <div className="flex gap-2 mb-4">
+                    {project.techUsed.map((tech) => (
+                      <span key={tech} className="badge badge-primary badge-lg">
+                        {tech}
+                      </span>
+                    ))}{" "}
+                  </div>
                   <div className="flex gap-2">
                     <a
                       href={project.codeLink}
