@@ -62,7 +62,7 @@ export default function Admin() {
     if (projectToEdit) {
       setNewProject(projectToEdit);
       setEditMode(true);
-      setEditIndex(id);
+
       projectFormRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   };
@@ -92,7 +92,7 @@ export default function Admin() {
     if (skillToEdit) {
       setNewSkill(skillToEdit);
       setEditMode(true);
-      setEditIndex(id);
+
       skillFormRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   };
@@ -115,7 +115,7 @@ export default function Admin() {
 
   if (!loggedIn) {
     return (
-      <div className="min-h-screen flex justify-center items-center flex-col gap-2">
+      <div className="min-h-screen bg-base-100 flex justify-center items-center flex-col gap-2">
         <label className="input input-bordered flex items-center gap-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -125,7 +125,7 @@ export default function Admin() {
           </svg>
           <input
             type="text"
-            className="grow "
+            className="text-base-content"
             fill="currentColor"
             placeholder="Username"
             onChange={(e) => setUsername(e.target.value)}
@@ -144,7 +144,7 @@ export default function Admin() {
           </svg>
           <input
             type="password"
-            className="grow"
+            className="text-base-content"
             fill="currentColor"
             placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}

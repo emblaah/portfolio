@@ -11,7 +11,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative">
         <div className="max-w-6xl mx-auto px-4 py-20">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid gap-12 items-center">
             <div className="space-y-8">
               <h1 className="text-6xl font-bold tracking-tight text-base-content">
                 Hi, I'm Embla
@@ -80,13 +80,13 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {(projects ?? []).map((project) => (
               <div key={project.id} className="card bg-base-100 shadow-xl">
-                  <figure>
-                    <img
-                      className="object-cover h-48 w-full"
-                      src={project.image}
-                      alt={project.name}
-                    />
-                  </figure>
+                <figure>
+                  <img
+                    className="object-cover h-48 w-full"
+                    src={project.image}
+                    alt={project.name}
+                  />
+                </figure>
                 <div className="p-6 card-body">
                   <h3 className="text-xl card-title font-semibold mb-2 text-base-content">
                     {project.title}

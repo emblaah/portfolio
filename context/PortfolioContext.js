@@ -7,8 +7,9 @@ export function PortfolioProvider({ children }) {
     {
       id: 1,
       title: "Todo List",
-      description: // give a brief description of the project
+      // give a brief description of the project
 
+      description:
         "A simple todo list application where users can add, remove, and manage their tasks. Built with React and styled using Tailwind CSS.",
       techUsed: ["React", "Tailwind"],
       codeLink: "https://github.com/emblaah/ws-react-todolist",
