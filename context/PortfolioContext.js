@@ -33,6 +33,15 @@ export function PortfolioProvider({ children }) {
       codeLink: "https://github.com/emblaah/chas_quiz_site",
       image: "/assets/QuizMaster.png",
     },
+    {
+      id: 4,
+      title: "Ai Site with Gemini AI",
+      description:
+        "A website that connects to the Gemini AI API to display information about different AI models. Built with React and styled using Tailwind CSS.",
+      techUsed: ["React", "Tailwind", "Next.js"],
+      codeLink: "https://github.com/emblaah/ai_site",
+      image: "/assets/AI-Site.png",
+    },
   ];
 
   const baseSkills = [
