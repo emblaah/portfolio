@@ -21,7 +21,7 @@ export function PortfolioProvider({ children }) {
       description:
         "A website that dynamically connects to the Pokemon API to display information about different Pokemon. Built with React and styled using Tailwind CSS.",
       techUsed: ["React", "Tailwind"],
-      codeLink: "https://github.com/zarhaselene/chas_pokemon.git",
+      codeLink: "https://github.com/emblaah/chas_pokemon_site",
       image: "/assets/PokemonSite.png",
     },
     {
@@ -30,7 +30,7 @@ export function PortfolioProvider({ children }) {
       description:
         "A quiz website where users can add questions, play the game, and view a leaderboard. Built with React and styled using Tailwind CSS.",
       techUsed: ["React", "Tailwind", "Next.js"],
-      codeLink: "https://github.com/zarhaselene/chas_quiz.git",
+      codeLink: "https://github.com/emblaah/chas_quiz_site",
       image: "/assets/QuizMaster.png",
     },
   ];
